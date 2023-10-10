@@ -1,86 +1,33 @@
-# based on https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance
+#Terraform works across platforms
+#Order does not matter
 
-# configure aws provider
-
+################################### A W S #################################
+# configure aws provider (provider block: 
 provider "aws" {
-  access_key = ""   # place access keys here
-  secret_key = ""   # place secret key here
-  region = "us-east-1"
+  access_key = ""  #enter your aws access_key
+  secret_key = ""  #enter your aws secret_key
+  region = "us-east-1"   #Availability Zone
   #profile = "Admin"
 }
 
-# create instance
+################################### I N S T A N C E #################################
 
-resource "aws_instance" "web_server2" {
-  ami           = "ami-053b0d53c279acc90" # us-east-1
+# create instance  #Resource Block to create an AWS instance
+resource "aws_instance" "terraform_local_instance_name" {                  
+  ami = "ami-08c40ec9ead489470"                            #AMI ID for Ubuntu
   instance_type = "t2.micro"
-  vpc_security_group_ids = [aws_security_group.web_ssh.id]
-  subnet_id     = aws_subnet.my_pub_subnet.id
-
-  user_data = "${file("install_jenkins.sh")}"
-
-    tags = {
-    "Name": "tf_made_instance"
-  }
-}
-
-#configure vpc
-
-resource "aws_vpc" "project_vpc" {
-  cidr_block = "" # enter your cidr_block here
+  subnet_id = ["subnet-05eec17a242af87d3"]   
+  vpc_security_group_ids = ["sg-0b8f86cae4c1dd5ce"]   
+  user_data = "${file("deploy.sh")}"   
 
   tags = {
-    Name = "project-vpc"
-  }
-}
-
-#configure subnet
-
-resource "aws_subnet" "my_pub_subnet" {
-  vpc_id            = aws_vpc.my_vpc.id
-  cidr_block        = "" # enter your cidr_block here
-  availability_zone = "us-east-1a"
-
-  tags = {
-    Name = "project-subnet-public1-us-east-1a"
-  }
-}
-
-# create security groups
-
-resource "aws_security_group" "web_ssh" {
-  description = "open ssh traffic"
-
-
-  ingress {
-    from_port = 22
-    to_port = 22
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-
-  }
-
-  ingress {
-    from_port = 8080
-    to_port = 8080
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-
-  }
-
-  egress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    "Name" : "dep4-sg"
+    "Name" : "terraform_activity"     #name of the instance in AWS
   }
 
 }
 
-output "instance_ip" {
-  value = aws_instance.web_server2.public_ip
+################################### O U T P U T #################################
+#Output Block
+output "instance_ip" {            
+  value = aws_instance.web_server01.public_ip
 }
