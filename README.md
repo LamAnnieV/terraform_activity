@@ -1,4 +1,4 @@
-##Code used for managing IaC using Terraform:
+## Code used for managing IaC using Terraform:
 
 `terraform init` #initilize terraform
 
