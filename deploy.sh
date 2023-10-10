@@ -14,3 +14,5 @@ sudo apt update  && sudo apt install -y jenkins
 
 #Start Jenkins
 sudo systemctl start jenkins
+
+exit 0
