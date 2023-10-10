@@ -2,7 +2,7 @@
 #Order does not matter
 
 ################################### A W S #################################
-# configure aws provider (provider block: 
+# configure aws provider 
 provider "aws" {
   access_key = ""  #enter your aws access_key
   secret_key = ""  #enter your aws secret_key
@@ -12,7 +12,7 @@ provider "aws" {
 
 ################################### I N S T A N C E #################################
 
-# create instance  #Resource Block to create an AWS instance
+#Resource Block to create an AWS instance
 resource "aws_instance" "terraform_local_instance_name" {                  
   ami = "ami-08c40ec9ead489470"                            #AMI ID for Ubuntu
   instance_type = "t2.micro"
